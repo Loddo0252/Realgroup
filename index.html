@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>MRZ Generator - Mock Travel Document Generator</title>
+</head>
+
+<body>
+    <div id="loading-indicator" class="loading-indicator">
+        <div class="spinner"></div>
+    </div>
+
+    <div class="app-header">
+        <h1>🛂 RealMhan MRZ Generator</h1>
+        <p>Generate mock MRZ data for testing</p>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h2>Document Configuration</h2>
+            </div>
+            <div class="card-body">
+                <div class="form-group full-width">
+                    <label for="dropdown">Document Type</label>
+                    <select onchange="selectChanged()" id="dropdown" class="form-control">
+                        <option value="Passport(TD3)">🛂 Passport (TD2)</option>
+                        <option value="ID Card(TD1)">🪪 ID Card (TD1)</option>
+                        
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="document_type_txt">Document Type Code</label>
+                        <input type="text" id="document_type_txt" class="form-control" placeholder="P" maxlength="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="country_code_txt">Country</label>
+                        <input type="text" id="country_code_txt" class="form-control" placeholder="GBR" maxlength="3">
+                    </div>
+                    <div class="form-group">
+                        <label for="nationality_txt">Nationality</label>
+                        <input type="text" id="nationality_txt" class="form-control" placeholder="GBR" maxlength="3">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="surname_txt">Surname</label>
+                        <input type="text" id="surname_txt" class="form-control" placeholder="AZIZ">
+                    </div>
+                    <div class="form-group">
+                        <label for="given_names_txt">Given Names</label>
+                        <input type="text" id="given_names_txt" class="form-control" placeholder="LODDO">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="document_number_txt">Document Number</label>
+                        <input type="text" id="document_number_txt" class="form-control" placeholder="K1RELFC7" maxlength="9">
+                    </div>
+                    <div class="form-group">
+                        <label for="sex_txt">Sex</label>
+                        <input type="text" id="sex_txt" class="form-control" placeholder="M" maxlength="1">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="birth_date_txt">Birth Date (YYMMDD)</label>
+                        <input type="text" id="birth_date_txt" class="form-control" placeholder="900115" maxlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label for="expiry_date_txt">Expiry Date (YYMMDD)</label>
+                        <input type="text" id="expiry_date_txt" class="form-control" placeholder="300115" maxlength="6">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="optional_data1_txt">Optional Data 1</label>
+                        <input type="text" id="optional_data1_txt" class="form-control" placeholder="ZE184226B">
+                    </div>
+                    <div class="form-group">
+                        <label for="optional_data2_txt">Optional Data 2</label>
+                        <input type="text" id="optional_data2_txt" class="form-control" placeholder="Optional">
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button id="randomBtn" onclick="randomize()" class="btn btn-secondary">
+                        🎲 Random Data
+                    </button>
+                    <button id="generateBtn" onclick="generate()" class="btn btn-primary">
+                        🔥Generate MRZ
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2>Generated MRZ Code</h2>
+            </div>
+            <div class="card-body">
+                <textarea rows="3" readonly id="outputMRZ" class="mrz-output"
+                    placeholder="Generated MRZ will appear here..."></textarea>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2>Document Preview</h2>
+            </div>
+            <div class="card-body">
+                <div class="canvas-wrapper">
+                    <canvas id="overlay"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="app-footer">
+        <p>⚠️ For Testing and Education purposes only - Not valid travel documents</p>
+    </footer>
+
+    <!-- Load MRZ Generator library first -->
+    <script src="mrz-generator.js"></script>
+    <!-- Load main application code -->
+    <script src="app.js"></script>
+</body>
+
+</html>
