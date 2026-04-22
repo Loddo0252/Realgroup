@@ -1,137 +1,182 @@
-// Helper: get element value
-function val(id) {
-    return document.getElementById(id).value.toUpperCase();
+// =========================
+// DOM ELEMENTS
+// =========================
+const dropdown = document.getElementById("dropdown");
+const docTypeTxt = document.getElementById("document_type_txt");
+const countryTxt = document.getElementById("country_code_txt");
+const nationalityTxt = document.getElementById("nationality_txt");
+const surnameTxt = document.getElementById("surname_txt");
+const givenTxt = document.getElementById("given_names_txt");
+const docNumberTxt = document.getElementById("document_number_txt");
+const sexTxt = document.getElementById("sex_txt");
+const birthTxt = document.getElementById("birth_date_txt");
+const expiryTxt = document.getElementById("expiry_date_txt");
+const opt1Txt = document.getElementById("optional_data1_txt");
+const opt2Txt = document.getElementById("optional_data2_txt");
+
+const output = document.getElementById("outputMRZ");
+const canvas = document.getElementById("overlay");
+const ctx = canvas.getContext("2d");
+
+// =========================
+// ICAO MRZ CHECK DIGIT
+// =========================
+function checkDigit(input) {
+    const weights = [7, 3, 1];
+    let sum = 0;
+
+    for (let i = 0; i < input.length; i++) {
+        let char = input[i];
+        let value;
+
+        if (char >= "0" && char <= "9") value = parseInt(char);
+        else if (char >= "A" && char <= "Z") value = char.charCodeAt(0) - 55;
+        else value = 0;
+
+        sum += value * weights[i % 3];
+    }
+
+    return (sum % 10).toString();
 }
 
-// Helper: set value
-function setVal(id, value) {
-    document.getElementById(id).value = value;
+// =========================
+// FORMAT HELPERS
+// =========================
+function pad(str, len) {
+    return (str + "<".repeat(len)).substring(0, len);
 }
 
-// Show loading
-function showLoading(show = true) {
-    const loader = document.getElementById("loading-indicator");
-    loader.classList.toggle("show", show);
+function clean(str) {
+    return str.toUpperCase().replace(/[^A-Z0-9]/g, "<");
 }
 
-// MRZ formatting helper
-function formatMRZ(text, length) {
-    text = text.replace(/[^A-Z0-9<]/g, "").toUpperCase();
-    return (text + "<".repeat(length)).substring(0, length);
-}
-
-// Generate MRZ
-function generate() {
-    showLoading(true);
-
-    setTimeout(() => {
-        const docType = val("document_type_txt") || "P";
-        const country = val("country_code_txt") || "GBR";
-        const surname = val("surname_txt");
-        const given = val("given_names_txt");
-        const passport = val("document_number_txt");
-        const nationality = val("nationality_txt");
-        const birth = val("birth_date_txt");
-        const sex = val("sex_txt") || "M";
-        const expiry = val("expiry_date_txt");
-        const optional1 = val("optional_data1_txt");
-
-        // Line 1
-        let name = surname + "<<" + given.replace(/ /g, "<");
-        let line1 = formatMRZ(docType + "<" + country + name, 44);
-
-        // Line 2
-        let line2 =
-            formatMRZ(passport, 9) +
-            "<" +
-            nationality +
-            formatMRZ(birth, 6) +
-            "0" + // fake check digit
-            sex +
-            formatMRZ(expiry, 6) +
-            "0" +
-            formatMRZ(optional1, 14) +
-            "0";
-
-        line2 = formatMRZ(line2, 44);
-
-        const mrz = line1 + "\n" + line2;
-
-        document.getElementById("outputMRZ").value = mrz;
-
-        drawCanvas(mrz);
-        showLoading(false);
-    }, 500);
-}
-
-// Random data generator
+// =========================
+// RANDOM DATA
+// =========================
 function randomize() {
-    const names = ["AZIZ", "JOHN", "EMMA", "DAVID", "FATIMA"];
-    const surnames = ["LODDO", "SMITH", "DOE", "ALI", "IBRAHIM"];
-    const countries = ["GBR", "USA", "NGA", "FRA", "CAN"];
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-    function rand(arr) {
-        return arr[Math.floor(Math.random() * arr.length)];
+    function randLetter() {
+        return letters[Math.floor(Math.random() * letters.length)];
     }
 
     function randNum(len) {
-        let str = "";
-        for (let i = 0; i < len; i++) {
-            str += Math.floor(Math.random() * 10);
-        }
-        return str;
+        let n = "";
+        for (let i = 0; i < len; i++) n += Math.floor(Math.random() * 10);
+        return n;
     }
 
-    setVal("document_type_txt", "P");
-    setVal("country_code_txt", rand(countries));
-    setVal("nationality_txt", rand(countries));
-    setVal("surname_txt", rand(surnames));
-    setVal("given_names_txt", rand(names));
-    setVal("document_number_txt", Math.random().toString(36).substring(2, 11).toUpperCase());
-    setVal("sex_txt", Math.random() > 0.5 ? "M" : "F");
-    setVal("birth_date_txt", randNum(6));
-    setVal("expiry_date_txt", randNum(6));
-    setVal("optional_data1_txt", Math.random().toString(36).substring(2, 10).toUpperCase());
-    setVal("optional_data2_txt", "OPTIONAL");
+    surnameTxt.value = "DOE";
+    givenTxt.value = "JOHN";
+    docNumberTxt.value = randLetter() + randNum(7);
+    countryTxt.value = "NGA";
+    nationalityTxt.value = "NGA";
+    sexTxt.value = Math.random() > 0.5 ? "M" : "F";
+    birthTxt.value = "900101";
+    expiryTxt.value = "300101";
+    opt1Txt.value = randNum(9);
+    opt2Txt.value = "";
 }
 
-// Dropdown change handler
+// =========================
+// DOCUMENT TYPE SWITCH
+// =========================
 function selectChanged() {
-    const value = document.getElementById("dropdown").value;
+    const type = dropdown.value;
 
-    if (value.includes("Passport")) {
-        setVal("document_type_txt", "P");
+    if (type.includes("Passport")) {
+        docTypeTxt.value = "P";
     } else {
-        setVal("document_type_txt", "I");
+        docTypeTxt.value = "I";
     }
 }
 
-// Canvas preview
-function drawCanvas(mrz) {
-    const canvas = document.getElementById("overlay");
-    const ctx = canvas.getContext("2d");
+// =========================
+// MRZ GENERATOR (MAIN)
+// =========================
+function generate() {
+    const type = dropdown.value;
 
+    const docType = clean(docTypeTxt.value || "P");
+    const country = clean(countryTxt.value || "NGA");
+    const nationality = clean(nationalityTxt.value || "NGA");
+
+    const surname = clean(surnameTxt.value || "DOE");
+    const given = clean(givenTxt.value || "JOHN");
+
+    const docNumber = clean(docNumberTxt.value || "A1234567");
+    const sex = clean(sexTxt.value || "M");
+
+    const birth = clean(birthTxt.value || "900101");
+    const expiry = clean(expiryTxt.value || "300101");
+
+    const opt1 = clean(opt1Txt.value || "");
+    const opt2 = clean(opt2Txt.value || "");
+
+    let mrz = "";
+
+    // =========================
+    // TD3 PASSPORT (2 lines 44 chars)
+    // =========================
+    if (type.includes("Passport")) {
+        const docNumCD = checkDigit(docNumber);
+        const birthCD = checkDigit(birth);
+        const expiryCD = checkDigit(expiry);
+
+        const line1 = pad(docType + "<" + country + surname + "<<" + given, 44);
+        const line2 =
+            pad(docNumber + docNumCD + country + birth + birthCD + expiry + expiryCD + sex + opt1, 44);
+
+        mrz = line1 + "\n" + line2;
+    }
+
+    // =========================
+    // TD1 ID CARD (3 lines 30 chars)
+    // =========================
+    else {
+        const docNumCD = checkDigit(docNumber);
+        const birthCD = checkDigit(birth);
+        const expiryCD = checkDigit(expiry);
+
+        const line1 = pad(docType + country + docNumber + docNumCD, 30);
+        const line2 = pad(birth + birthCD + sex + expiry + expiryCD + nationality, 30);
+        const line3 = pad(surname + "<<" + given, 30);
+
+        mrz = line1 + "\n" + line2 + "\n" + line3;
+    }
+
+    output.value = mrz;
+
+    drawPreview(mrz);
+}
+
+// =========================
+// CANVAS PREVIEW
+// =========================
+function drawPreview(text) {
     canvas.width = 500;
-    canvas.height = 300;
+    canvas.height = 200;
 
-    // Background
-    ctx.fillStyle = "#ffffff";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = "rgba(0,0,0,0.4)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Title
-    ctx.fillStyle = "#000";
-    ctx.font = "bold 20px Arial";
-    ctx.fillText("Mock Travel Document", 120, 40);
-
-    // MRZ text
+    ctx.fillStyle = "#00ffcc";
     ctx.font = "16px monospace";
-    const lines = mrz.split("\n");
 
-    ctx.fillText(lines[0], 20, 220);
-    ctx.fillText(lines[1], 20, 250);
+    const lines = text.split("\n");
+
+    lines.forEach((line, i) => {
+        ctx.fillText(line, 20, 50 + i * 30);
+    });
 }
 
-// Init defaults
+// =========================
+// LOADING INDICATOR (optional safety)
+// =========================
 window.onload = () => {
+    const loader = document.getElementById("loading-indicator");
+    if (loader) loader.style.display = "none";
     selectChanged();
 };
