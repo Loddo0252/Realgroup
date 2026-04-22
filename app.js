@@ -114,6 +114,27 @@ function generate() {
     const opt2 = clean(opt2Txt.value || "");
 
     let mrz = "";
+}
+    
+    function copyMRZ() {
+    const output = document.getElementById("outputMRZ");
+
+    if (!output.value) {
+        alert("No MRZ generated yet!");
+        return;
+    }
+
+    navigator.clipboard.writeText(output.value)
+        .then(() => {
+            alert("MRZ copied to clipboard ✅");
+        })
+        .catch(() => {
+            // fallback for older browsers
+            output.select();
+            document.execCommand("copy");
+            alert("MRZ copied manually ✅");
+        });
+}
 
     // =========================
     // TD3 PASSPORT (2 lines 44 chars)
