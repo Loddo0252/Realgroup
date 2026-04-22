@@ -21,31 +21,48 @@ const ctx = canvas.getContext("2d");
 // =========================
 // ICAO MRZ CHECK DIGIT
 // =========================
-static calculateCheckDigit(data) {
+function checkDigit(input) {
     const weights = [7, 3, 1];
-
-    const charValues = {
-        '<': 0, '0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5,
-        '6': 6, '7': 7, '8': 8, '9': 9,
-        'A': 10, 'B': 11, 'C': 12, 'D': 13, 'E': 14, 'F': 15,
-        'G': 16, 'H': 17, 'I': 18, 'J': 19, 'K': 20, 'L': 21,
-        'M': 22, 'N': 23, 'O': 24, 'P': 25, 'Q': 26, 'R': 27,
-        'S': 28, 'T': 29, 'U': 30, 'V': 31, 'W': 32, 'X': 33,
-        'Y': 34, 'Z': 35
-    };
-
     let sum = 0;
 
-    for (let i = 0; i < data.length; i++) {
-        const char = data[i];
-        const value = charValues[char] ?? 0;
+    for (let i = 0; i < input.length; i++) {
+        let char = input[i];
+        let value;
+    
+
+        if (char >= "0" && char <= "9") value = parseInt(char);
+        else if (char >= "A" && char <= "Z") value = char.charCodeAt(0) - 55;
+        else value = 0;
 
         sum += value * weights[i % 3];
     }
 
     return (sum % 10).toString();
-
 }
+or 
+class MRZGenerator {
+    /**
+     * Calculate check digit for MRZ using the standard algorithm
+     * @param {string} data - The string to calculate check digit for
+     * @returns {string} - Single digit check character
+     */
+    static calculateCheckDigit(data) {
+        const weights = [7, 3, 1];
+        const charValues = {
+            '<': 0, '0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9,
+            'A': 10, 'B': 11, 'C': 12, 'D': 13, 'E': 14, 'F': 15, 'G': 16, 'H': 17, 'I': 18,
+            'J': 19, 'K': 20, 'L': 21, 'M': 22, 'N': 23, 'O': 24, 'P': 25, 'Q': 26, 'R': 27,
+            'S': 28, 'T': 29, 'U': 30, 'V': 31, 'W': 32, 'X': 33, 'Y': 34, 'Z': 35
+        };
+
+        let total = 0;
+        for (let i = 0; i < data.length; i++) {
+            const char = data[i].toUpperCase();
+            const value = charValues[char] !== undefined ? charValues[char] : 0;
+            total += value * weights[i % 3];
+        }
+        return (total % 10).toString();
+    }
 
 // =========================
 // FORMAT HELPERS
@@ -183,7 +200,8 @@ function drawPreview(text) {
 // =========================
 // LOADING INDICATOR (optional safety)
 // =========================
-display: none
-document.getElementById("loading-indicator").classList.add("active"); // show
-document.getElementById("loading-indicator").classList.remove("active"); // hide
+window.onload = () => {
+    const loader = document.getElementById("loading-indicator");
+    if (loader) loader.style.display = "none";
+    selectChanged();
 };
