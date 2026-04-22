@@ -175,8 +175,6 @@ function drawPreview(text) {
 // =========================
 // LOADING INDICATOR (optional safety)
 // =========================
-window.onload = () => {
-    const loader = document.getElementById("loading-indicator");
-    if (loader) loader.style.display = "none";
-    selectChanged();
+document.getElementById("loading-indicator").classList.add("active"); // show
+document.getElementById("loading-indicator").classList.remove("active"); // hide
 };
