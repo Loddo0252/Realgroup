@@ -18,45 +18,37 @@
 }
 
 /* =========================
-   THEME COLORS
+   COLORS
 ========================= */
 :root {
     --primary: #00d4ff;
-    --primary-dark: #007cf0;
     --accent: #7c3aed;
-
-    --glass: rgba(255, 255, 255, 0.08);
-    --glass-border: rgba(255, 255, 255, 0.18);
-
     --text: #e5f6ff;
     --muted: rgba(229, 246, 255, 0.7);
 
-    --success: #00ff9d;
-    --danger: #ff4d6d;
-
-    --shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    --glass: rgba(255, 255, 255, 0.08);
+    --border: rgba(255, 255, 255, 0.18);
 }
 
 /* =========================
-   BODY (AURORA BACKGROUND)
+   BODY (WATER GLOW BACKGROUND)
 ========================= */
 body {
     font-family: 'Inter', sans-serif;
     min-height: 100vh;
     padding: 1rem;
     color: var(--text);
-    background: radial-gradient(circle at top, #0f172a, #020617 70%);
-    overflow-x: hidden;
+    background: radial-gradient(circle at top, #0f172a, #020617);
 }
 
-/* glowing background blobs */
+/* glowing water blobs */
 body::before,
 body::after {
     content: "";
     position: fixed;
-    width: 450px;
-    height: 450px;
-    filter: blur(140px);
+    width: 400px;
+    height: 400px;
+    filter: blur(130px);
     opacity: 0.5;
     z-index: -1;
 }
@@ -79,164 +71,146 @@ body::after {
 .app-header {
     text-align: center;
     padding: 2rem 1rem;
-    margin-bottom: 2rem;
 }
 
 .app-header h1 {
-    font-size: clamp(2rem, 5vw, 3rem);
-    font-weight: 700;
+    font-size: 2.5rem;
     background: linear-gradient(90deg, var(--primary), var(--accent));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    text-shadow: 0 0 25px rgba(0, 212, 255, 0.25);
 }
 
 .app-header p {
     color: var(--muted);
-    font-weight: 300;
 }
 
 /* =========================
-   CONTAINER
-========================= */
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-/* =========================
-   GLASS CARDS
+   CARD (GLASS EFFECT)
 ========================= */
 .card {
     background: var(--glass);
-    border: 1px solid var(--glass-border);
+    border: 1px solid var(--border);
     backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    border-radius: 18px;
-    box-shadow: var(--shadow);
+    border-radius: 16px;
     margin-bottom: 2rem;
-    overflow: hidden;
     transition: 0.3s ease;
 }
 
 .card:hover {
-    transform: translateY(-4px);
-    border-color: rgba(0, 212, 255, 0.4);
+    transform: translateY(-3px);
 }
 
 /* =========================
    CARD HEADER
 ========================= */
 .card-header {
-    padding: 1.5rem;
-    background: rgba(255, 255, 255, 0.05);
-    border-bottom: 1px solid var(--glass-border);
+    padding: 1.2rem;
+    border-bottom: 1px solid var(--border);
 }
 
 .card-header h2 {
-    font-size: 1.3rem;
-    color: var(--text);
+    font-size: 1.2rem;
 }
 
 /* =========================
    CARD BODY
 ========================= */
 .card-body {
-    padding: 2rem;
+    padding: 1.5rem;
 }
 
 /* =========================
-   FORM
+   INPUTS
 ========================= */
 .form-row {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.2rem;
-    margin-bottom: 1.2rem;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1rem;
 }
 
 label {
     font-size: 0.85rem;
     color: var(--muted);
-    margin-bottom: 0.4rem;
+    margin-bottom: 5px;
 }
 
-/* =========================
-   INPUTS (GLASS STYLE)
-========================= */
 .form-control {
-    padding: 0.75rem 1rem;
+    padding: 10px 12px;
     border-radius: 12px;
-    border: 1px solid var(--glass-border);
-    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.06);
     color: var(--text);
     outline: none;
     transition: 0.3s ease;
 }
 
-.form-control::placeholder {
-    color: rgba(255, 255, 255, 0.4);
-}
-
 .form-control:focus {
     border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.2);
+    box-shadow: 0 0 0 3px rgba(0,212,255,0.2);
 }
 
 /* =========================
-   SELECT
-========================= */
-select.form-control {
-    cursor: pointer;
-}
-
-/* =========================
-   BUTTONS
+   BUTTONS (WATER STYLE)
 ========================= */
 .button-group {
     display: flex;
-    gap: 1rem;
-    margin-top: 1.5rem;
+    gap: 10px;
+    margin-top: 1rem;
     flex-wrap: wrap;
 }
 
 .btn {
-    padding: 0.85rem 1.5rem;
-    border-radius: 12px;
+    padding: 10px 16px;
+    border-radius: 30px;
     border: none;
     cursor: pointer;
     font-weight: 600;
     transition: 0.3s ease;
-    flex: 1;
-    min-width: 150px;
+    position: relative;
+    overflow: hidden;
 }
 
-/* primary neon button */
+/* PRIMARY BUTTON */
 .btn-primary {
     background: linear-gradient(135deg, var(--primary), var(--accent));
     color: white;
-    box-shadow: 0 0 25px rgba(0, 212, 255, 0.25);
 }
 
 .btn-primary:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 40px rgba(0, 212, 255, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 0 25px rgba(0,212,255,0.4);
 }
 
-/* secondary glass button */
+/* SECONDARY GLASS BUTTON */
 .btn-secondary {
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(255,255,255,0.08);
     color: var(--text);
-    border: 1px solid var(--glass-border);
+    border: 1px solid var(--border);
 }
 
 .btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 20px rgba(0,212,255,0.2);
+    transform: translateY(-2px);
+}
+
+/* WATER RIPPLE EFFECT (ALL BUTTONS) */
+.btn::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(0,212,255,0.25);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.4s ease, height 0.4s ease;
+}
+
+.btn:active::after {
+    width: 200px;
+    height: 200px;
 }
 
 /* =========================
@@ -244,57 +218,44 @@ select.form-control {
 ========================= */
 .mrz-output {
     width: 100%;
-    min-height: 120px;
-    padding: 1.5rem;
+    padding: 1rem;
     border-radius: 12px;
-    border: 1px solid rgba(0, 212, 255, 0.3);
-    background: rgba(0, 0, 0, 0.4);
-    color: var(--success);
+    background: rgba(0,0,0,0.4);
+    border: 1px solid var(--border);
+    color: #00ffcc;
     font-family: "OCR-B", monospace;
-    font-size: 1rem;
     letter-spacing: 2px;
 }
 
 /* =========================
-   CANVAS PREVIEW
+   CANVAS
 ========================= */
 .canvas-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid var(--glass-border);
+    padding: 1.5rem;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
     border-radius: 12px;
 }
 
 /* =========================
-   LOADING SPINNER
+   COPY BUTTON (SPECIAL)
 ========================= */
-.loading-indicator {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(8px);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
+.water-btn {
+    padding: 10px 18px;
+    border-radius: 30px;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.08);
+    color: var(--text);
+    cursor: pointer;
+    backdrop-filter: blur(12px);
+    transition: 0.3s ease;
+    position: relative;
+    overflow: hidden;
 }
 
-.spinner {
-    width: 60px;
-    height: 60px;
-    border: 4px solid rgba(255, 255, 255, 0.2);
-    border-top: 4px solid var(--primary);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
+.water-btn:hover {
+    box-shadow: 0 0 20px rgba(0,212,255,0.3);
+    transform: translateY(-2px);
 }
 
 /* =========================
@@ -302,20 +263,7 @@ select.form-control {
 ========================= */
 .app-footer {
     text-align: center;
-    padding: 2rem 1rem;
     color: var(--muted);
+    padding: 2rem;
     font-size: 0.9rem;
-}
-
-/* =========================
-   RESPONSIVE
-========================= */
-@media (max-width: 768px) {
-    .form-row {
-        grid-template-columns: 1fr;
-    }
-
-    .button-group {
-        flex-direction: column;
-    }
 }
