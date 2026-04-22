@@ -576,23 +576,4 @@ function drawImage() {
 // Generate initial MRZ on page load
 window.addEventListener('load', function () {
     generate();
-}
-
-function copyMRZ() {
-    const output = document.getElementById("outputMRZ");
-
-    if (!output.value) {
-        alert("No MRZ generated yet!");
-        return;
-    }
-
-    navigator.clipboard.writeText(output.value)
-        .then(() => {
-            alert("MRZ copied to clipboard ✅");
-        })
-        .catch(() => {
-            // fallback for older browsers
-            output.select();
-            document.execCommand("copy");
-            alert("MRZ copied manually ✅");
 });
