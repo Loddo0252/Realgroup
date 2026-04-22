@@ -183,6 +183,7 @@ function drawPreview(text) {
 // =========================
 // LOADING INDICATOR (optional safety)
 // =========================
+display: none
 document.getElementById("loading-indicator").classList.add("active"); // show
 document.getElementById("loading-indicator").classList.remove("active"); // hide
 };
