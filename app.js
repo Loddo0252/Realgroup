@@ -576,7 +576,7 @@ function drawImage() {
 // Generate initial MRZ on page load
 window.addEventListener('load', function () {
     generate();
-})
+}
 
 function copyMRZ() {
     const output = document.getElementById("outputMRZ");
