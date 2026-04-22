@@ -6,71 +6,21 @@
 @font-face {
     font-family: "OCR-B";
     src: url("./fonts/ocrbfont.ttf") format("truetype");
-}
-
 /* =========================
-   RESET
+   GLOBAL RESET & BASE
 ========================= */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* =========================
-   THEME COLORS
-========================= */
-:root {
-    --primary: #00d4ff;
-    --primary-dark: #007cf0;
-    --accent: #7c3aed;
-
-    --glass: rgba(255, 255, 255, 0.08);
-    --glass-border: rgba(255, 255, 255, 0.18);
-
-    --text: #e5f6ff;
-    --muted: rgba(229, 246, 255, 0.7);
-
-    --success: #00ff9d;
-    --danger: #ff4d6d;
-
-    --shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-}
-
-/* =========================
-   BODY (AURORA BACKGROUND)
-========================= */
 body {
-    font-family: 'Inter', sans-serif;
     min-height: 100vh;
-    padding: 1rem;
-    color: var(--text);
-    background: radial-gradient(circle at top, #0f172a, #020617 70%);
-    overflow-x: hidden;
-}
-
-/* glowing background blobs */
-body::before,
-body::after {
-    content: "";
-    position: fixed;
-    width: 450px;
-    height: 450px;
-    filter: blur(140px);
-    opacity: 0.5;
-    z-index: -1;
-}
-
-body::before {
-    background: var(--primary);
-    top: -120px;
-    left: -120px;
-}
-
-body::after {
-    background: var(--accent);
-    bottom: -120px;
-    right: -120px;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: #fff;
+    padding: 20px;
 }
 
 /* =========================
@@ -78,121 +28,109 @@ body::after {
 ========================= */
 .app-header {
     text-align: center;
-    padding: 2rem 1rem;
-    margin-bottom: 2rem;
+    margin-bottom: 30px;
 }
 
 .app-header h1 {
-    font-size: clamp(2rem, 5vw, 3rem);
+    font-size: 2.2rem;
     font-weight: 700;
-    background: linear-gradient(90deg, var(--primary), var(--accent));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 0 0 25px rgba(0, 212, 255, 0.25);
+    letter-spacing: 1px;
 }
 
 .app-header p {
-    color: var(--muted);
-    font-weight: 300;
+    opacity: 0.8;
+    margin-top: 5px;
 }
 
 /* =========================
    CONTAINER
 ========================= */
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
+    max-width: 1100px;
+    margin: auto;
+    display: grid;
+    gap: 25px;
 }
 
 /* =========================
-   GLASS CARDS
+   GLASS CARD STYLE
 ========================= */
 .card {
-    background: var(--glass);
-    border: 1px solid var(--glass-border);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    border-radius: 18px;
-    box-shadow: var(--shadow);
-    margin-bottom: 2rem;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     overflow: hidden;
-    transition: 0.3s ease;
+    transition: transform 0.3s ease;
 }
 
 .card:hover {
-    transform: translateY(-4px);
-    border-color: rgba(0, 212, 255, 0.4);
+    transform: translateY(-5px);
 }
 
-/* =========================
-   CARD HEADER
-========================= */
 .card-header {
-    padding: 1.5rem;
+    padding: 15px 20px;
     background: rgba(255, 255, 255, 0.05);
-    border-bottom: 1px solid var(--glass-border);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .card-header h2 {
-    font-size: 1.3rem;
-    color: var(--text);
+    font-size: 1.2rem;
+    font-weight: 600;
 }
 
-/* =========================
-   CARD BODY
-========================= */
 .card-body {
-    padding: 2rem;
+    padding: 20px;
 }
 
 /* =========================
-   FORM
+   FORM LAYOUT
 ========================= */
-.form-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.2rem;
-    margin-bottom: 1.2rem;
-}
-
 .form-group {
     display: flex;
     flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.form-row {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.full-width {
+    width: 100%;
 }
 
 label {
     font-size: 0.85rem;
-    color: var(--muted);
-    margin-bottom: 0.4rem;
+    margin-bottom: 6px;
+    opacity: 0.9;
 }
 
 /* =========================
-   INPUTS (GLASS STYLE)
+   INPUT FIELDS (GLASS STYLE)
 ========================= */
 .form-control {
-    padding: 0.75rem 1rem;
-    border-radius: 12px;
-    border: 1px solid var(--glass-border);
-    background: rgba(255, 255, 255, 0.06);
-    color: var(--text);
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.07);
+    color: #fff;
     outline: none;
-    transition: 0.3s ease;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
 }
 
 .form-control::placeholder {
-    color: rgba(255, 255, 255, 0.4);
+    color: rgba(255, 255, 255, 0.5);
 }
 
 .form-control:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.2);
-}
-
-/* =========================
-   SELECT
-========================= */
-select.form-control {
-    cursor: pointer;
+    border-color: rgba(0, 200, 255, 0.7);
+    box-shadow: 0 0 10px rgba(0, 200, 255, 0.4);
 }
 
 /* =========================
@@ -200,43 +138,37 @@ select.form-control {
 ========================= */
 .button-group {
     display: flex;
-    gap: 1rem;
-    margin-top: 1.5rem;
-    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
 }
 
 .btn {
-    padding: 0.85rem 1.5rem;
+    padding: 10px 16px;
     border-radius: 12px;
     border: none;
     cursor: pointer;
     font-weight: 600;
     transition: 0.3s ease;
-    flex: 1;
-    min-width: 150px;
+    backdrop-filter: blur(10px);
 }
 
-/* primary neon button */
 .btn-primary {
-    background: linear-gradient(135deg, var(--primary), var(--accent));
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
     color: white;
-    box-shadow: 0 0 25px rgba(0, 212, 255, 0.25);
 }
 
 .btn-primary:hover {
     transform: scale(1.05);
-    box-shadow: 0 0 40px rgba(0, 212, 255, 0.5);
+    box-shadow: 0 0 15px rgba(0, 150, 255, 0.5);
 }
 
-/* secondary glass button */
 .btn-secondary {
-    background: rgba(255, 255, 255, 0.08);
-    color: var(--text);
-    border: 1px solid var(--glass-border);
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
 }
 
 .btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.25);
 }
 
 /* =========================
@@ -244,15 +176,15 @@ select.form-control {
 ========================= */
 .mrz-output {
     width: 100%;
-    min-height: 120px;
-    padding: 1.5rem;
+    background: rgba(0, 0, 0, 0.35);
+    color: #00ffcc;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 15px;
     border-radius: 12px;
-    border: 1px solid rgba(0, 212, 255, 0.3);
-    background: rgba(0, 0, 0, 0.4);
-    color: var(--success);
-    font-family: "OCR-B", monospace;
+    font-family: "Courier New", monospace;
     font-size: 1rem;
-    letter-spacing: 2px;
+    resize: none;
+    backdrop-filter: blur(10px);
 }
 
 /* =========================
@@ -262,10 +194,14 @@ select.form-control {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 2rem;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid var(--glass-border);
+    padding: 10px;
+}
+
+canvas {
+    max-width: 100%;
     border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
 }
 
 /* =========================
@@ -275,18 +211,17 @@ select.form-control {
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(8px);
-    display: none;
+    display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 9999;
+    z-index: 999;
 }
 
 .spinner {
-    width: 60px;
-    height: 60px;
-    border: 4px solid rgba(255, 255, 255, 0.2);
-    border-top: 4px solid var(--primary);
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(255, 255, 255, 0.2);
+    border-top: 5px solid #00c6ff;
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }
@@ -302,9 +237,9 @@ select.form-control {
 ========================= */
 .app-footer {
     text-align: center;
-    padding: 2rem 1rem;
-    color: var(--muted);
-    font-size: 0.9rem;
+    margin-top: 30px;
+    font-size: 0.85rem;
+    opacity: 0.7;
 }
 
 /* =========================
@@ -312,7 +247,7 @@ select.form-control {
 ========================= */
 @media (max-width: 768px) {
     .form-row {
-        grid-template-columns: 1fr;
+        flex-direction: column;
     }
 
     .button-group {
